@@ -1,25 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-    <title>Каталог Туй</title>
+    <meta charset="UTF-8">
+    <title>База данных растений</title>
 </head>
 <body>
-    <h1>Каталог Туй</h1>
+    <h1>Информация о растениях</h1>
+    <div id="plantInfo">Загрузка данных...</div>
 
-    <section id="tuya-zapadnaya-smaragd">
-        <h2>Туя Западная 'Смарагд'</h2>
-        <article class="tuya-size" data-size="100-125" data-price="2950">
-            <h3>Размер: 100-125 см</h3>
-            <p>Цена: 2950 руб.</p>
-        </article>
-        <article class="tuya-size" data-size="125-150" data-price="4250">
-            <h3>Размер: 125-150 см</h3>
-            <p>Цена: 4250 руб.</p>
-        </article>
-        <!-- Повторять структуру article для каждого размера -->
-    </section>
+    <!-- Скрипты будут здесь -->
+	<script>
+    async function fetchPlants() {
+        try {
+            const response = await fetch('plants.json'); // Убедитесь, что путь к файлу верный
+            const plants = await response.json();
 
-    <!-- Повторить структуру section для Туи Западной 'Брабант' и Туи Западной 'Колумна' -->
+            // Простой пример отображения данных
+            const plantElement = document.getElementById('plantInfo');
+            plantElement.innerHTML = '';
+            plants.forEach(plant => {
+                plantElement.innerHTML += `<p>${plant.name} (${plant.variety}), ${plant.heightMin}-${plant.heightMax} см: ${plant.price} руб.</p>`;
+            });
+        } catch (error) {
+            console.error('Ошибка при загрузке данных: ', error);
+            document.getElementById('plantInfo').innerText = 'Ошибка при загрузке данных.';
+        }
+    }
 
+    fetchPlants();
+</script>
 </body>
 </html>
